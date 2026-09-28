@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo producto - VulnShop</title>
+</head>
+
+<body>
+
+    <h1>Crear producto</h1>
+
+    <form method="POST">
+
+        <label>Nombre:</label>
+        <input
+            type="text"
+            name="name"
+            required
+        >
+
+        <br><br>
+
+        <label>Descripción:</label>
+        <textarea
+            name="description"
+            required
+        ></textarea>
+
+        <br><br>
+
+        <label>Precio:</label>
+        <input
+            type="number"
+            name="price"
+            min="0"
+            step="0.01"
+            required
+        >
+
+        <br><br>
+
+        <label>Stock:</label>
+        <input
+            type="number"
+            name="stock"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Crear producto
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/admin/productos">
+        Volver a productos
+    </a>
+
+</body>
+
+</html>

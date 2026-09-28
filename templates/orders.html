@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mis pedidos - VulnShop</title>
+</head>
+
+<body>
+
+    <h1>Mis pedidos</h1>
+
+    {% if orders %}
+
+        {% for order in orders %}
+
+            <div>
+
+                <h2>
+                    <a href="{{ url_for('order_detail', order_id=order['id']) }}">
+                        Pedido #{{ order["id"] }}
+                    </a>
+                </h2>
+
+                <p>
+                    <strong>Producto:</strong>
+                    {{ order["name"] }}
+                </p>
+
+                <p>
+                    <strong>Cantidad:</strong>
+                    {{ order["quantity"] }}
+                </p>
+
+                <p>
+                    <strong>Precio total:</strong>
+                    {{ order["total_price"] }} €
+                </p>
+
+                <p>
+                    <strong>Fecha:</strong>
+                    {{ order["created_at"] }}
+                </p>
+
+            </div>
+
+            <hr>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>Todavía no has realizado ningún pedido.</p>
+
+    {% endif %}
+
+    <a href="/productos">Ver productos</a>
+    <br>
+    <a href="/">Volver al inicio</a>
+
+</body>
+
+</html>

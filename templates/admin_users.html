@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar usuarios - VulnShop</title>
+</head>
+
+<body>
+
+    <h1>Gestionar usuarios</h1>
+
+    {% for user in users %}
+
+        <div>
+
+            <p>
+                <strong>ID:</strong>
+                {{ user["id"] }}
+            </p>
+
+            <p>
+                <strong>Usuario:</strong>
+                {{ user["username"] }}
+            </p>
+
+            <p>
+                <strong>Email:</strong>
+                {{ user["email"] }}
+            </p>
+
+            <p>
+                <strong>Rol:</strong>
+                {{ user["role"] }}
+            </p>
+
+            {% if user["id"] != session["user_id"] %}
+
+                <form
+                    action="{{ url_for('admin_change_role', user_id=user['id']) }}"
+                    method="POST"
+                >
+
+                    <label>Modificar rol:</label>
+
+                    <select name="role">
+
+                        <option
+                            value="user"
+                            {% if user["role"] == "user" %}selected{% endif %}
+                        >
+                            Usuario
+                        </option>
+
+                        <option
+                            value="admin"
+                            {% if user["role"] == "admin" %}selected{% endif %}
+                        >
+                            Administrador
+                        </option>
+
+                    </select>
+
+                    <button type="submit">
+                        Guardar
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+        <hr>
+
+    {% endfor %}
+
+    <a href="/admin">
+        Volver al panel de administración
+    </a>
+
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pedido #{{ order["id"] }} - VulnShop</title>
+</head>
+
+<body>
+
+    <h1>Pedido #{{ order["id"] }}</h1>
+
+    <p>
+        <strong>Producto:</strong>
+        {{ order["name"] }}
+    </p>
+
+    <p>
+        <strong>Cantidad:</strong>
+        {{ order["quantity"] }}
+    </p>
+
+    <p>
+        <strong>Precio total:</strong>
+        {{ order["total_price"] }} €
+    </p>
+
+    <p>
+        <strong>Fecha:</strong>
+        {{ order["created_at"] }}
+    </p>
+
+    <br>
+
+    <a href="/pedidos">Volver a mis pedidos</a>
+    <br>
+    <a href="/">Volver al inicio</a>
+
+</body>
+
+</html>

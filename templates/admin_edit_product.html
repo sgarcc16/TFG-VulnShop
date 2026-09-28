@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Editar producto - VulnShop</title>
+</head>
+
+<body>
+
+    <h1>Editar producto</h1>
+
+    <form method="POST">
+
+        <label>Nombre:</label>
+        <input
+            type="text"
+            name="name"
+            value="{{ product['name'] }}"
+            required
+        >
+
+        <br><br>
+
+        <label>Descripción:</label>
+        <textarea
+            name="description"
+            required
+        >{{ product["description"] }}</textarea>
+
+        <br><br>
+
+        <label>Precio:</label>
+        <input
+            type="number"
+            name="price"
+            value="{{ product['price'] }}"
+            min="0"
+            step="0.01"
+            required
+        >
+
+        <br><br>
+
+        <label>Stock:</label>
+        <input
+            type="number"
+            name="stock"
+            value="{{ product['stock'] }}"
+            min="0"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Guardar cambios
+        </button>
+
+    </form>
+
+    <br>
+
+    <a href="/admin/productos">
+        Volver
+    </a>
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Administración - VulnShop</title>
+</head>
+
+<body>
+
+    <h1>Panel de administración</h1>
+
+    <p>Bienvenido, {{ session["username"] }}</p>
+
+    <ul>
+        <li><a href="/admin/productos">Gestionar productos</a></li>
+        <li><a href="/admin/usuarios">Gestionar usuarios</a></li>
+    </ul>
+
+    <br>
+
+    <a href="/">Volver al inicio</a>
+
+</body>
+
+</html>

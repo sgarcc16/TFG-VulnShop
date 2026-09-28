@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>VulnShop</title>
+</head>
+
+<body>
+
+    <h1>VulnShop</h1>
+
+    <p>Aplicación web para el laboratorio de pentesting del TFG.</p>
+
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/productos">Productos</a>
+
+        {% if session.get("user_id") %}
+
+            <a href="/perfil">Mi perfil</a>
+            <a href="/pedidos">Mis pedidos</a>
+
+            {% if session.get("role") == "admin" %}
+                <a href="/admin">Administración</a>
+            {% endif %}
+
+            <a href="/logout">Cerrar sesión</a>
+
+        {% else %}
+
+            <a href="/login">Iniciar sesión</a>
+            <a href="/registro">Registrarse</a>
+
+        {% endif %}
+    </nav>
+
+    {% if session.get("user_id") %}
+
+        <h2>Bienvenido, {{ session["username"] }}</h2>
+
+        <p>Has iniciado sesión correctamente.</p>
+
+    {% endif %}
+
+</body>
+
+</html>
