@@ -1,63 +1,89 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{{ product["name"] }} - VulnShop</title>
-</head>
+{% block title %}
+{{ product["name"] }} - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
+
+<div class="card">
 
     <h1>{{ product["name"] }}</h1>
 
-    <p>{{ product["description"] }}</p>
-
     <p>
-        <strong>Precio:</strong>
+        {{ product["description"] }}
+    </p>
+
+    <p class="price">
         {{ product["price"] }} €
     </p>
 
-    <p>
-        <strong>Stock disponible:</strong>
-        {{ product["stock"] }}
+    <p class="stock">
+        Stock disponible: {{ product["stock"] }}
     </p>
-    
+
     {% if session.get("user_id") %}
 
-    <h2>Comprar producto</h2>
+        {% if product["stock"] > 0 %}
 
-        <form action="{{ url_for('buy_product', product_id=product['id']) }}" method="POST">
-
-            <label>Cantidad:</label>
-
-            <input
-                type="number"
-                name="quantity"
-                value="1"
-                min="1"
-                max="{{ product['stock'] }}"
-                required
+            <form
+                method="POST"
+                action="/comprar/{{ product['id'] }}"
             >
 
-            <button type="submit">Comprar</button>
+                <label for="quantity">
+                    Cantidad
+                </label>
 
-        </form>
+                <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    value="1"
+                    min="1"
+                    max="{{ product['stock'] }}"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="btn"
+                >
+                    Comprar
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <p>
+                Producto sin stock.
+            </p>
+
+        {% endif %}
 
     {% else %}
 
         <p>
-            <a href="/login">Inicia sesión</a>
-            para comprar este producto.
+            Debes iniciar sesión para comprar.
         </p>
+
+        <a
+            href="{{ url_for('login') }}"
+            class="btn"
+        >
+            Iniciar sesión
+        </a>
 
     {% endif %}
 
-    <br>
+</div>
 
-    <a href="/productos">Volver a productos</a>
-    <br>
-    <a href="/">Volver al inicio</a>
+<a
+    href="{{ url_for('products') }}"
+    class="btn btn-secondary"
+>
+    Volver a productos
+</a>
 
-</body>
-
-</html>
+{% endblock %}

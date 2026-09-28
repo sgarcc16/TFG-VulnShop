@@ -1,63 +1,96 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Mis pedidos - VulnShop</title>
-</head>
+{% block title %}
+Mis pedidos - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>Mis pedidos</h1>
+<h1>Mis pedidos</h1>
 
-    {% if orders %}
+{% if orders %}
 
-        {% for order in orders %}
+    <div class="card">
 
-            <div>
+        <table>
 
-                <h2>
-                    <a href="{{ url_for('order_detail', order_id=order['id']) }}">
-                        Pedido #{{ order["id"] }}
-                    </a>
-                </h2>
+            <thead>
 
-                <p>
-                    <strong>Producto:</strong>
-                    {{ order["name"] }}
-                </p>
+                <tr>
+                    <th>Pedido</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                    <th>Fecha</th>
+                    <th>Acción</th>
+                </tr>
 
-                <p>
-                    <strong>Cantidad:</strong>
-                    {{ order["quantity"] }}
-                </p>
+            </thead>
 
-                <p>
-                    <strong>Precio total:</strong>
-                    {{ order["total_price"] }} €
-                </p>
+            <tbody>
 
-                <p>
-                    <strong>Fecha:</strong>
-                    {{ order["created_at"] }}
-                </p>
+                {% for order in orders %}
 
-            </div>
+                    <tr>
 
-            <hr>
+                        <td>
+                            #{{ order["id"] }}
+                        </td>
 
-        {% endfor %}
+                        <td>
+                            {{ order["name"] }}
+                        </td>
 
-    {% else %}
+                        <td>
+                            {{ order["quantity"] }}
+                        </td>
 
-        <p>Todavía no has realizado ningún pedido.</p>
+                        <td>
+                            {{ order["total_price"] }} €
+                        </td>
 
-    {% endif %}
+                        <td>
+                            {{ order["created_at"] }}
+                        </td>
 
-    <a href="/productos">Ver productos</a>
-    <br>
-    <a href="/">Volver al inicio</a>
+                        <td>
 
-</body>
+                            <a
+                                href="/pedido/{{ order['id'] }}"
+                                class="btn"
+                            >
+                                Ver
+                            </a>
 
-</html>
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+{% else %}
+
+    <div class="card">
+
+        <p>
+            Todavía no has realizado ningún pedido.
+        </p>
+
+        <a
+            href="{{ url_for('products') }}"
+            class="btn"
+        >
+            Ver productos
+        </a>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

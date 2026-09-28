@@ -1,26 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Administración - VulnShop</title>
-</head>
+{% block title %}
+Administración - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>Panel de administración</h1>
+<h1>Panel de administración</h1>
 
-    <p>Bienvenido, {{ session["username"] }}</p>
+<p>
+    Desde aquí puedes gestionar los elementos principales de VulnShop.
+</p>
 
-    <ul>
-        <li><a href="/admin/productos">Gestionar productos</a></li>
-        <li><a href="/admin/usuarios">Gestionar usuarios</a></li>
-    </ul>
 
-    <br>
+<div class="admin-grid">
 
-    <a href="/">Volver al inicio</a>
+    <div class="card">
 
-</body>
+        <h2>Productos</h2>
 
-</html>
+        <p>
+            Crea, modifica y elimina productos del catálogo.
+        </p>
+
+        <a
+            href="/admin/productos"
+            class="btn"
+        >
+            Gestionar productos
+        </a>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Usuarios</h2>
+
+        <p>
+            Consulta los usuarios registrados y administra sus roles.
+        </p>
+
+        <a
+            href="/admin/usuarios"
+            class="btn"
+        >
+            Gestionar usuarios
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

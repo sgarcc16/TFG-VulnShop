@@ -1,37 +1,63 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Login - VulnShop</title>
-</head>
 
-<body>
+{% block title %}
+
+Iniciar sesión - VulnShop
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="card">
 
     <h1>Iniciar sesión</h1>
 
     <form method="POST">
 
-        <label>Nombre de usuario:</label>
-        <input type="text" name="username" required>
+        <label>
+            Nombre de usuario
+        </label>
 
-        <br><br>
+        <input
+            type="text"
+            name="username"
+            required
+        >
 
-        <label>Contraseña:</label>
-        <input type="password" name="password" required>
 
-        <br><br>
+        <label>
+            Contraseña
+        </label>
 
-        <button type="submit">Iniciar sesión</button>
+        <input
+            type="password"
+            name="password"
+            required
+        >
+
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Iniciar sesión
+        </button>
 
     </form>
 
-    <br>
 
-    <a href="/registro">Crear una cuenta</a>
-    <br>
-    <a href="/">Volver al inicio</a>
+    <p>
+        ¿No tienes cuenta?
 
-</body>
+        <a href="{{ url_for('register') }}">
+            Registrarse
+        </a>
+    </p>
 
-</html>
+</div>
+
+
+{% endblock %}

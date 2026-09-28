@@ -1,14 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Pedido #{{ order["id"] }} - VulnShop</title>
-</head>
+{% block title %}
+Pedido #{{ order["id"] }} - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>Pedido #{{ order["id"] }}</h1>
+<h1>
+    Pedido #{{ order["id"] }}
+</h1>
+
+<div class="card">
 
     <p>
         <strong>Producto:</strong>
@@ -30,12 +32,13 @@
         {{ order["created_at"] }}
     </p>
 
-    <br>
+</div>
 
-    <a href="/pedidos">Volver a mis pedidos</a>
-    <br>
-    <a href="/">Volver al inicio</a>
+<a
+    href="{{ url_for('orders') }}"
+    class="btn btn-secondary"
+>
+    Volver a mis pedidos
+</a>
 
-</body>
-
-</html>
+{% endblock %}

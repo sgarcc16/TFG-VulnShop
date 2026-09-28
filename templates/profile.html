@@ -1,24 +1,42 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Mi perfil - VulnShop</title>
-</head>
+{% block title %}
+Mi perfil - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>Mi perfil</h1>
+<h1>Mi perfil</h1>
 
-    <p><strong>Usuario:</strong> {{ user["username"] }}</p>
-    <p><strong>Email:</strong> {{ user["email"] }}</p>
-    <p><strong>Rol:</strong> {{ user["role"] }}</p>
+<div class="card">
 
-    <br>
+    <p>
+        <strong>ID:</strong>
+        {{ user["id"] }}
+    </p>
 
-    <a href="/">Volver al inicio</a>
-    <a href="/logout">Cerrar sesión</a>
+    <p>
+        <strong>Usuario:</strong>
+        {{ user["username"] }}
+    </p>
 
-</body>
+    <p>
+        <strong>Correo electrónico:</strong>
+        {{ user["email"] }}
+    </p>
 
-</html>
+    <p>
+        <strong>Rol:</strong>
+        {{ user["role"] }}
+    </p>
+
+</div>
+
+<a
+    href="{{ url_for('orders') }}"
+    class="btn"
+>
+    Ver mis pedidos
+</a>
+
+{% endblock %}

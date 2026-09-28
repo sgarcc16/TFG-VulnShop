@@ -1,65 +1,113 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Gestionar productos - VulnShop</title>
-</head>
+{% block title %}
+Gestión de productos - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>Gestionar productos</h1>
+<div class="page-header">
 
-    <a href="{{ url_for('admin_create_product') }}">
-        Crear nuevo producto
+    <div>
+
+        <h1>Gestión de productos</h1>
+
+        <p>
+            Administración del catálogo de VulnShop.
+        </p>
+
+    </div>
+
+    <a
+        href="/admin/productos/nuevo"
+        class="btn"
+    >
+        Nuevo producto
     </a>
 
-    <hr>
+</div>
 
-    {% for product in products %}
 
-        <div>
+<div class="card">
 
-            <h2>{{ product["name"] }}</h2>
+    <table>
 
-            <p>
-                <strong>ID:</strong>
-                {{ product["id"] }}
-            </p>
+        <thead>
 
-            <p>
-                <strong>Precio:</strong>
-                {{ product["price"] }} €
-            </p>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
 
-            <p>
-                <strong>Stock:</strong>
-                {{ product["stock"] }}
-            </p>
+        </thead>
 
-            <a href="{{ url_for('admin_edit_product', product_id=product['id']) }}">
-                Editar
-            </a>
+        <tbody>
 
-            <form
-                action="{{ url_for('admin_delete_product', product_id=product['id']) }}"
-                method="POST"
-            >
+            {% for product in products %}
 
-                <button type="submit">
-                    Eliminar
-                </button>
+                <tr>
 
-            </form>
+                    <td>
+                        {{ product["id"] }}
+                    </td>
 
-        </div>
+                    <td>
+                        {{ product["name"] }}
+                    </td>
 
-        <hr>
+                    <td>
+                        {{ product["price"] }} €
+                    </td>
 
-    {% endfor %}
+                    <td>
+                        {{ product["stock"] }}
+                    </td>
 
-    <a href="/admin">Volver al panel de administración</a>
+                    <td class="actions">
 
-</body>
+                        <a
+                            href="/admin/productos/{{ product['id'] }}/editar"
+                            class="btn"
+                        >
+                            Editar
+                        </a>
 
-</html>
+                        <form
+                            method="POST"
+                            action="/admin/productos/{{ product['id'] }}/eliminar"
+                            class="inline-form"
+                        >
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+                                Eliminar
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<a
+    href="/admin"
+    class="btn btn-secondary"
+>
+    Volver al panel
+</a>
+
+{% endblock %}

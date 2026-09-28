@@ -1,84 +1,122 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Gestionar usuarios - VulnShop</title>
-</head>
+{% block title %}
+Gestión de usuarios - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>Gestionar usuarios</h1>
+<h1>Gestión de usuarios</h1>
 
-    {% for user in users %}
+<div class="card">
 
-        <div>
+    <table>
 
-            <p>
-                <strong>ID:</strong>
-                {{ user["id"] }}
-            </p>
+        <thead>
 
-            <p>
-                <strong>Usuario:</strong>
-                {{ user["username"] }}
-            </p>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Administración</th>
+            </tr>
 
-            <p>
-                <strong>Email:</strong>
-                {{ user["email"] }}
-            </p>
+        </thead>
 
-            <p>
-                <strong>Rol:</strong>
-                {{ user["role"] }}
-            </p>
+        <tbody>
 
-            {% if user["id"] != session["user_id"] %}
+            {% for user in users %}
 
-                <form
-                    action="{{ url_for('admin_change_role', user_id=user['id']) }}"
-                    method="POST"
-                >
+                <tr>
 
-                    <label>Modificar rol:</label>
+                    <td>
+                        {{ user["id"] }}
+                    </td>
 
-                    <select name="role">
+                    <td>
+                        {{ user["username"] }}
+                    </td>
 
-                        <option
-                            value="user"
-                            {% if user["role"] == "user" %}selected{% endif %}
-                        >
-                            Usuario
-                        </option>
+                    <td>
+                        {{ user["email"] }}
+                    </td>
 
-                        <option
-                            value="admin"
-                            {% if user["role"] == "admin" %}selected{% endif %}
-                        >
-                            Administrador
-                        </option>
+                    <td>
 
-                    </select>
+                        <span class="role-badge">
+                            {{ user["role"] }}
+                        </span>
 
-                    <button type="submit">
-                        Guardar
-                    </button>
+                    </td>
 
-                </form>
+                    <td>
 
-            {% endif %}
+                        {% if user["id"] != session["user_id"] %}
 
-        </div>
+                            <form
+                                method="POST"
+                                action="/admin/usuarios/{{ user['id'] }}/rol"
+                                class="role-form"
+                            >
 
-        <hr>
+                                <select name="role">
 
-    {% endfor %}
+                                    <option
+                                        value="user"
+                                        {% if user["role"] == "user" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Usuario
+                                    </option>
 
-    <a href="/admin">
-        Volver al panel de administración
-    </a>
+                                    <option
+                                        value="admin"
+                                        {% if user["role"] == "admin" %}
+                                            selected
+                                        {% endif %}
+                                    >
+                                        Administrador
+                                    </option>
 
-</body>
+                                </select>
 
-</html>
+                                <button
+                                    type="submit"
+                                    class="btn"
+                                >
+                                    Cambiar rol
+                                </button>
+
+                            </form>
+
+                        {% else %}
+
+                            <span class="muted">
+                                Tu cuenta
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<a
+    href="/admin"
+    class="btn btn-secondary"
+>
+    Volver al panel
+</a>
+
+{% endblock %}

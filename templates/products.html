@@ -1,57 +1,84 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Productos - VulnShop</title>
-</head>
 
-<body>
+{% block title %}
 
-    <h1>Productos</h1>
+Productos - VulnShop
 
-        <form action="{{ url_for('search') }}" method="GET">
+{% endblock %}
+
+
+{% block content %}
+
+
+<h1>Productos</h1>
+
+
+<div class="card">
+
+    <form
+        action="{{ url_for('search') }}"
+        method="GET"
+    >
+
+        <label>Buscar productos</label>
 
         <input
             type="text"
             name="q"
-            placeholder="Buscar productos..."
+            placeholder="Teclado, monitor, ratón..."
         >
 
-        <button type="submit">Buscar</button>
+        <button
+            type="submit"
+            class="btn"
+        >
+            Buscar
+        </button>
 
     </form>
 
-    <br>
+</div>
+
+
+<div class="product-grid">
 
     {% for product in products %}
 
-        <div>
+        <div class="card">
+
             <h2>
-                <a href="{{ url_for('product_detail', product_id=product['id']) }}">
-                    {{ product["name"] }}
-                </a>
+                {{ product["name"] }}
             </h2>
 
-            <p>{{ product["description"] }}</p>
-
             <p>
-                <strong>Precio:</strong>
+                {{ product["description"] }}
+            </p>
+
+            <p class="price">
                 {{ product["price"] }} €
             </p>
 
-            <p>
-                <strong>Stock:</strong>
+            <p class="stock">
+                Stock disponible:
                 {{ product["stock"] }}
             </p>
-        </div>
 
-        <hr>
+            <a
+                href="{{ url_for(
+                    'product_detail',
+                    product_id=product['id']
+                ) }}"
+                class="btn"
+            >
+                Ver producto
+            </a>
+
+        </div>
 
     {% endfor %}
 
-    <a href="/">Volver al inicio</a>
+</div>
 
-</body>
 
-</html>
+{% endblock %}

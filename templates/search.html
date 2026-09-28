@@ -1,58 +1,104 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Buscar - VulnShop</title>
-</head>
+{% block title %}
+Buscar productos - VulnShop
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h1>Resultados de búsqueda</h1>
+<h1>Buscar productos</h1>
 
-    <p>
-        Resultados para:
-        <strong>{{ query }}</strong>
-    </p>
+<div class="card">
 
-    {% if products %}
+    <form
+        method="GET"
+        action="{{ url_for('search') }}"
+    >
+
+        <label for="q">
+            Buscar
+        </label>
+
+        <input
+            type="text"
+            id="q"
+            name="q"
+            value="{{ query }}"
+            placeholder="Buscar producto..."
+        >
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Buscar
+        </button>
+
+    </form>
+
+</div>
+
+
+{% if query %}
+
+    <h2>
+        Resultados para "{{ query }}"
+    </h2>
+
+{% endif %}
+
+
+{% if products %}
+
+    <div class="product-grid">
 
         {% for product in products %}
 
-            <div>
+            <div class="card">
 
                 <h2>
-                    <a href="{{ url_for('product_detail', product_id=product['id']) }}">
-                        {{ product["name"] }}
-                    </a>
+                    {{ product["name"] }}
                 </h2>
 
-                <p>{{ product["description"] }}</p>
-
                 <p>
-                    <strong>Precio:</strong>
+                    {{ product["description"] }}
+                </p>
+
+                <p class="price">
                     {{ product["price"] }} €
                 </p>
 
-                <p>
-                    <strong>Stock:</strong>
-                    {{ product["stock"] }}
+                <p class="stock">
+                    Stock: {{ product["stock"] }}
                 </p>
+
+                <a
+                    href="/producto/{{ product['id'] }}"
+                    class="btn"
+                >
+                    Ver producto
+                </a>
 
             </div>
 
-            <hr>
-
         {% endfor %}
 
-    {% else %}
+    </div>
 
-        <p>No se han encontrado productos.</p>
+{% else %}
+
+    {% if query %}
+
+        <div class="card">
+
+            <p>
+                No se han encontrado productos.
+            </p>
+
+        </div>
 
     {% endif %}
 
-    <a href="/productos">Volver a productos</a>
+{% endif %}
 
-</body>
-
-</html>
+{% endblock %}

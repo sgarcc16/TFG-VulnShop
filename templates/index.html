@@ -1,48 +1,63 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>VulnShop</title>
-</head>
 
-<body>
+{% block title %}
 
-    <h1>VulnShop</h1>
+Inicio - VulnShop
 
-    <p>Aplicación web para el laboratorio de pentesting del TFG.</p>
+{% endblock %}
 
-    <nav>
-        <a href="/">Inicio</a>
-        <a href="/productos">Productos</a>
 
-        {% if session.get("user_id") %}
+{% block content %}
 
-            <a href="/perfil">Mi perfil</a>
-            <a href="/pedidos">Mis pedidos</a>
 
-            {% if session.get("role") == "admin" %}
-                <a href="/admin">Administración</a>
-            {% endif %}
+<div class="card">
 
-            <a href="/logout">Cerrar sesión</a>
+    <h1>Bienvenido a VulnShop</h1>
 
-        {% else %}
+    <p>
+        Tienda online utilizada como entorno
+        controlado para el laboratorio de seguridad
+        del Trabajo Fin de Grado.
+    </p>
 
-            <a href="/login">Iniciar sesión</a>
-            <a href="/registro">Registrarse</a>
+</div>
 
-        {% endif %}
-    </nav>
 
-    {% if session.get("user_id") %}
+{% if session.get("user_id") %}
 
-        <h2>Bienvenido, {{ session["username"] }}</h2>
+<div class="welcome">
 
-        <p>Has iniciado sesión correctamente.</p>
+    <strong>
+        Bienvenido, {{ session["username"] }}
+    </strong>
 
-    {% endif %}
+    <p>
+        Has iniciado sesión correctamente.
+    </p>
 
-</body>
+</div>
 
-</html>
+{% endif %}
+
+
+<div class="card">
+
+    <h2>Explora nuestros productos</h2>
+
+    <p>
+        Consulta nuestro catálogo de productos
+        disponibles.
+    </p>
+
+    <a
+        href="{{ url_for('products') }}"
+        class="btn"
+    >
+        Ver productos
+    </a>
+
+</div>
+
+
+{% endblock %}
