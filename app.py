@@ -627,5 +627,38 @@ def admin_change_role(user_id):
 
     return redirect(url_for("admin_users"))
 
+@app.route("/lab/sqli")
+def vulnerable_search():
+
+    query = request.args.get("q", "")
+
+    connection = sqlite3.connect("vulnshop.db")
+    connection.row_factory = sqlite3.Row
+
+    cursor = connection.cursor()
+
+    sql = f"""
+        SELECT id, name, description, price, stock
+        FROM products
+        WHERE name LIKE '%{query}%'
+        OR description LIKE '%{query}%'
+    """
+
+    try:
+        cursor.execute(sql)
+        products = cursor.fetchall()
+
+    except sqlite3.Error as error:
+        connection.close()
+        return f"Error SQL: {error}", 500
+
+    connection.close()
+
+    return render_template(
+        "vulnerable_search.html",
+        products=products,
+        query=query
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)

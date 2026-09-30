@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+SQL Injection Lab - VulnShop
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Laboratorio SQL Injection</h1>
+
+    <p>
+        Esta funcionalidad contiene deliberadamente una vulnerabilidad
+        SQL Injection para las pruebas realizadas en el entorno
+        controlado del TFG.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <form method="GET">
+
+        <label for="q">
+            Buscar producto
+        </label>
+
+        <input
+            type="text"
+            id="q"
+            name="q"
+            value="{{ query }}"
+            placeholder="Introduce una búsqueda..."
+        >
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Buscar
+        </button>
+
+    </form>
+
+</div>
+
+
+{% if query %}
+
+    <h2>
+        Resultados para "{{ query }}"
+    </h2>
+
+{% endif %}
+
+
+{% if products %}
+
+    <div class="product-grid">
+
+        {% for product in products %}
+
+            <div class="card">
+
+                <h2>
+                    {{ product["name"] }}
+                </h2>
+
+                <p>
+                    {{ product["description"] }}
+                </p>
+
+                <p class="price">
+                    {{ product["price"] }} €
+                </p>
+
+                <p class="stock">
+                    Stock: {{ product["stock"] }}
+                </p>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+{% elif query %}
+
+    <div class="card">
+
+        <p>
+            No se han encontrado productos.
+        </p>
+
+    </div>
+
+{% endif %}
+
+
+<a
+    href="{{ url_for('products') }}"
+    class="btn btn-secondary"
+>
+    Volver a productos
+</a>
+
+{% endblock %}
