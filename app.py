@@ -1,4 +1,5 @@
 import sqlite3
+import hashlib
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -711,6 +712,66 @@ def vulnerable_config():
     }
 
     return config_info
+
+@app.route("/lab/crypto/register", methods=["GET", "POST"])
+def vulnerable_crypto_register():
+
+    message = None
+
+    if request.method == "POST":
+
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+
+        if not username or not password:
+            return "Usuario y contraseña obligatorios", 400
+
+        weak_hash = hashlib.md5(
+            password.encode("utf-8")
+        ).hexdigest()
+
+        connection = sqlite3.connect("vulnshop.db")
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS lab_users_weak_crypto (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL
+            )
+            """
+        )
+
+        try:
+
+            cursor.execute(
+                """
+                INSERT INTO lab_users_weak_crypto (
+                    username,
+                    password_hash
+                )
+                VALUES (?, ?)
+                """,
+                (username, weak_hash)
+            )
+
+            connection.commit()
+
+            message = "Usuario de laboratorio registrado correctamente."
+
+        except sqlite3.IntegrityError:
+
+            connection.close()
+
+            return "El usuario ya existe", 400
+
+        connection.close()
+
+    return render_template(
+        "vulnerable_crypto_register.html",
+        message=message
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
