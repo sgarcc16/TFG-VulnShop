@@ -773,5 +773,93 @@ def vulnerable_crypto_register():
         message=message
     )
 
+@app.route(
+    "/lab/insecure-design/producto/<int:product_id>",
+    methods=["GET", "POST"]
+)
+def vulnerable_purchase(product_id):
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = sqlite3.connect("vulnshop.db")
+    connection.row_factory = sqlite3.Row
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT id, name, description, price, stock
+        FROM products
+        WHERE id = ?
+        """,
+        (product_id,)
+    )
+
+    product = cursor.fetchone()
+
+    if product is None:
+        connection.close()
+        return "Producto no encontrado", 404
+
+    if request.method == "POST":
+
+        try:
+            quantity = int(request.form["quantity"])
+            client_price = float(request.form["unit_price"])
+
+        except (ValueError, KeyError):
+            connection.close()
+            return "Datos no válidos", 400
+
+        if quantity <= 0:
+            connection.close()
+            return "Cantidad no válida", 400
+
+        if quantity > product["stock"]:
+            connection.close()
+            return "No hay suficiente stock disponible", 400
+
+        total_price = client_price * quantity
+
+        cursor.execute(
+            """
+            INSERT INTO orders (
+                user_id,
+                product_id,
+                quantity,
+                total_price
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (
+                session["user_id"],
+                product_id,
+                quantity,
+                total_price
+            )
+        )
+
+        cursor.execute(
+            """
+            UPDATE products
+            SET stock = stock - ?
+            WHERE id = ?
+            """,
+            (quantity, product_id)
+        )
+
+        connection.commit()
+        connection.close()
+
+        return redirect(url_for("orders"))
+
+    connection.close()
+
+    return render_template(
+        "vulnerable_purchase.html",
+        product=product
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}
+Insecure Design Lab - VulnShop
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Laboratorio Insecure Design</h1>
+
+    <p>
+        Esta funcionalidad contiene deliberadamente
+        un fallo de lógica de negocio.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        {{ product["name"] }}
+    </h2>
+
+    <p>
+        {{ product["description"] }}
+    </p>
+
+    <p class="price">
+        Precio: {{ product["price"] }} €
+    </p>
+
+    <p>
+        Stock disponible: {{ product["stock"] }}
+    </p>
+
+
+    <form method="POST">
+
+        <label for="quantity">
+            Cantidad
+        </label>
+
+        <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            value="1"
+            min="1"
+            max="{{ product['stock'] }}"
+            required
+        >
+
+        <input
+            type="hidden"
+            id="unit_price"
+            name="unit_price"
+            value="{{ product['price'] }}"
+        >
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Comprar
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
