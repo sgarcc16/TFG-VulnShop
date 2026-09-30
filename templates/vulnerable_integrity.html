@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+Data Integrity Lab - VulnShop
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Laboratorio Software or Data Integrity Failures</h1>
+
+    <p>
+        Este escenario utiliza deliberadamente un token
+        cuyos datos no disponen de ningún mecanismo
+        para verificar su integridad.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>Cupón de descuento</h2>
+
+    <p>
+        Cupón generado por el servidor:
+    </p>
+
+    <form method="POST">
+
+        <label for="coupon_token">
+            Token
+        </label>
+
+        <textarea
+            id="coupon_token"
+            name="coupon_token"
+            required
+        >{{ token }}</textarea>
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Aplicar cupón
+        </button>
+
+    </form>
+
+    {% if result %}
+
+        <p>
+            <strong>{{ result }}</strong>
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

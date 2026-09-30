@@ -1,5 +1,7 @@
 import sqlite3
 import hashlib
+import base64
+import json
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -911,6 +913,50 @@ def vulnerable_auth_login():
     return render_template(
         "vulnerable_auth_login.html",
         message=message
+    )
+
+@app.route("/lab/integrity", methods=["GET", "POST"])
+def vulnerable_integrity():
+
+    coupon_data = {
+        "campaign": "WELCOME",
+        "discount": 10
+    }
+
+    default_token = base64.urlsafe_b64encode(
+        json.dumps(coupon_data).encode("utf-8")
+    ).decode("utf-8")
+
+    result = None
+
+    if request.method == "POST":
+
+        token = request.form.get("coupon_token", "")
+
+        try:
+
+            decoded_data = base64.urlsafe_b64decode(
+                token.encode("utf-8")
+            ).decode("utf-8")
+
+            coupon = json.loads(decoded_data)
+
+            discount = coupon["discount"]
+            campaign = coupon["campaign"]
+
+            result = (
+                f"Cupón {campaign} aceptado. "
+                f"Descuento aplicado: {discount}%"
+            )
+
+        except Exception:
+
+            result = "Cupón no válido."
+
+    return render_template(
+        "vulnerable_integrity.html",
+        token=default_token,
+        result=result
     )
 
 if __name__ == "__main__":
