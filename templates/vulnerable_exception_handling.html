@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+Exceptional Conditions Lab - VulnShop
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>
+        Laboratorio Mishandling of Exceptional Conditions
+    </h1>
+
+    <p>
+        Esta funcionalidad contiene deliberadamente
+        un manejo inseguro de una condición excepcional.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>Comprobación de acceso</h2>
+
+    <p>
+        Valor recibido:
+        <strong>{{ access_value }}</strong>
+    </p>
+
+
+    {% if allowed %}
+
+        <p>
+            <strong>
+                Acceso concedido.
+            </strong>
+        </p>
+
+        <p>
+            Información interna de laboratorio:
+        </p>
+
+        <p>
+            Código interno: LAB-ADMIN-AREA
+        </p>
+
+    {% else %}
+
+        <p>
+            <strong>
+                Acceso denegado.
+            </strong>
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

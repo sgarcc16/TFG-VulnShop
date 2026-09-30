@@ -1076,5 +1076,57 @@ def secure_logging_login():
         message=message
     )
 
+@app.route("/lab/exceptions")
+def vulnerable_exception_handling():
+
+    access_value = request.args.get("access", "0")
+
+    try:
+
+        access_level = int(access_value)
+
+        if access_level == 1:
+            allowed = True
+        else:
+            allowed = False
+
+    except ValueError:
+
+        # Vulnerabilidad deliberada:
+        # ante un valor inesperado el sistema falla de forma abierta.
+        allowed = True
+
+    return render_template(
+        "vulnerable_exception_handling.html",
+        allowed=allowed,
+        access_value=access_value
+    )
+
+@app.route("/lab/exceptions/secure")
+def secure_exception_handling():
+
+    access_value = request.args.get("access", "0")
+
+    try:
+
+        access_level = int(access_value)
+
+        if access_level == 1:
+            allowed = True
+        else:
+            allowed = False
+
+    except ValueError:
+
+        # Comportamiento seguro:
+        # ante una condición inesperada se deniega el acceso.
+        allowed = False
+
+    return render_template(
+        "vulnerable_exception_handling.html",
+        allowed=allowed,
+        access_value=access_value
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)
