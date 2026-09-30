@@ -861,5 +861,57 @@ def vulnerable_purchase(product_id):
         product=product
     )
 
+@app.route("/lab/auth/login", methods=["GET", "POST"])
+def vulnerable_auth_login():
+
+    message = None
+
+    if request.method == "POST":
+
+        username = request.form.get("username", "")
+        password = request.form.get("password", "")
+
+        connection = sqlite3.connect("vulnshop.db")
+        connection.row_factory = sqlite3.Row
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id, username, password, role
+            FROM users
+            WHERE username = ?
+            """,
+            (username,)
+        )
+
+        user = cursor.fetchone()
+
+        connection.close()
+
+        if user is None:
+
+            message = "El usuario no existe."
+
+        elif not check_password_hash(
+            user["password"],
+            password
+        ):
+
+            message = "La contraseña es incorrecta."
+
+        else:
+
+            session["user_id"] = user["id"]
+            session["username"] = user["username"]
+            session["role"] = user["role"]
+
+            return redirect(url_for("index"))
+
+    return render_template(
+        "vulnerable_auth_login.html",
+        message=message
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+Authentication Failures Lab - VulnShop
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Laboratorio Authentication Failures</h1>
+
+    <p>
+        Este formulario contiene deliberadamente
+        un mecanismo de autenticación que revela
+        información sobre la existencia de usuarios.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <form method="POST">
+
+        <label for="username">
+            Nombre de usuario
+        </label>
+
+        <input
+            type="text"
+            id="username"
+            name="username"
+            required
+        >
+
+
+        <label for="password">
+            Contraseña
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            required
+        >
+
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Iniciar sesión
+        </button>
+
+    </form>
+
+
+    {% if message %}
+
+        <p>
+            {{ message }}
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<a
+    href="/"
+    class="btn btn-secondary"
+>
+    Volver al inicio
+</a>
+
+{% endblock %}
