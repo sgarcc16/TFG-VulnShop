@@ -699,5 +699,18 @@ def vulnerable_order_detail(order_id):
         order=order
     )
 
+@app.route("/lab/config")
+def vulnerable_config():
+
+    config_info = {
+        "environment": "development",
+        "debug": True,
+        "database": "vulnshop.db",
+        "secret_key": app.secret_key,
+        "framework": "Flask"
+    }
+
+    return config_info
+
 if __name__ == "__main__":
     app.run(debug=True)
