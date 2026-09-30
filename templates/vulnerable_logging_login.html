@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+Security Logging Lab - VulnShop
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>
+        Laboratorio Security Logging & Alerting Failures
+    </h1>
+
+    <p>
+        Esta funcionalidad contiene deliberadamente
+        un mecanismo de autenticación cuyos fallos
+        no quedan registrados.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <form method="POST">
+
+        <label for="username">
+            Nombre de usuario
+        </label>
+
+        <input
+            type="text"
+            id="username"
+            name="username"
+            required
+        >
+
+
+        <label for="password">
+            Contraseña
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            required
+        >
+
+
+        <button
+            type="submit"
+            class="btn"
+        >
+            Iniciar sesión
+        </button>
+
+    </form>
+
+    {% if message %}
+
+        <p>
+            {{ message }}
+        </p>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

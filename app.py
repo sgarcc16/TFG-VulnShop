@@ -2,6 +2,7 @@ import sqlite3
 import hashlib
 import base64
 import json
+import logging
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,6 +11,19 @@ from werkzeug.security import generate_password_hash, check_password_hash
 app = Flask(__name__)
 app.secret_key = "dev-secret-key"
 
+security_logger = logging.getLogger("security")
+
+security_logger.setLevel(logging.WARNING)
+
+security_handler = logging.FileHandler("security.log")
+
+security_formatter = logging.Formatter(
+    "%(asctime)s | %(levelname)s | %(message)s"
+)
+
+security_handler.setFormatter(security_formatter)
+
+security_logger.addHandler(security_handler)
 
 @app.route("/")
 def index():
@@ -957,6 +971,109 @@ def vulnerable_integrity():
         "vulnerable_integrity.html",
         token=default_token,
         result=result
+    )
+
+@app.route("/lab/logging/login", methods=["GET", "POST"])
+def vulnerable_logging_login():
+
+    message = None
+
+    if request.method == "POST":
+
+        username = request.form.get("username", "")
+        password = request.form.get("password", "")
+
+        connection = sqlite3.connect("vulnshop.db")
+        connection.row_factory = sqlite3.Row
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id, username, password
+            FROM users
+            WHERE username = ?
+            """,
+            (username,)
+        )
+
+        user = cursor.fetchone()
+
+        connection.close()
+
+        if (
+            user is None
+            or not check_password_hash(
+                user["password"],
+                password
+            )
+        ):
+
+            # Vulnerabilidad deliberada:
+            # el fallo de autenticación NO se registra.
+
+            message = "Credenciales incorrectas."
+
+        else:
+
+            message = "Autenticación correcta."
+
+    return render_template(
+        "vulnerable_logging_login.html",
+        message=message
+    )
+
+@app.route("/lab/logging/secure-login", methods=["GET", "POST"])
+def secure_logging_login():
+
+    message = None
+
+    if request.method == "POST":
+
+        username = request.form.get("username", "")
+        password = request.form.get("password", "")
+
+        connection = sqlite3.connect("vulnshop.db")
+        connection.row_factory = sqlite3.Row
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id, username, password
+            FROM users
+            WHERE username = ?
+            """,
+            (username,)
+        )
+
+        user = cursor.fetchone()
+
+        connection.close()
+
+        if (
+            user is None
+            or not check_password_hash(
+                user["password"],
+                password
+            )
+        ):
+
+            security_logger.warning(
+                "Failed login | username=%s | ip=%s",
+                username,
+                request.remote_addr
+            )
+
+            message = "Credenciales incorrectas."
+
+        else:
+
+            message = "Autenticación correcta."
+
+    return render_template(
+        "vulnerable_logging_login.html",
+        message=message
     )
 
 if __name__ == "__main__":
