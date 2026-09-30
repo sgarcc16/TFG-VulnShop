@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}
+IDOR Lab - VulnShop
+{% endblock %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Laboratorio Broken Access Control / IDOR</h1>
+
+    <p>
+        Esta página contiene deliberadamente un fallo de autorización
+        para las pruebas realizadas en el entorno controlado del TFG.
+    </p>
+
+</div>
+
+
+<div class="card">
+
+    <h2>
+        Pedido #{{ order["id"] }}
+    </h2>
+
+    <p>
+        <strong>ID del usuario propietario:</strong>
+        {{ order["user_id"] }}
+    </p>
+
+    <p>
+        <strong>Producto:</strong>
+        {{ order["name"] }}
+    </p>
+
+    <p>
+        <strong>Cantidad:</strong>
+        {{ order["quantity"] }}
+    </p>
+
+    <p>
+        <strong>Precio total:</strong>
+        {{ order["total_price"] }} €
+    </p>
+
+    <p>
+        <strong>Fecha:</strong>
+        {{ order["created_at"] }}
+    </p>
+
+</div>
+
+<a
+    href="{{ url_for('orders') }}"
+    class="btn btn-secondary"
+>
+    Volver a mis pedidos
+</a>
+
+{% endblock %}

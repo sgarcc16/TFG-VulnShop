@@ -660,5 +660,44 @@ def vulnerable_search():
         query=query
     )
 
+@app.route("/lab/idor/pedido/<int:order_id>")
+def vulnerable_order_detail(order_id):
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    connection = sqlite3.connect("vulnshop.db")
+    connection.row_factory = sqlite3.Row
+
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            orders.id,
+            orders.user_id,
+            products.name,
+            orders.quantity,
+            orders.total_price,
+            orders.created_at
+        FROM orders
+        JOIN products ON orders.product_id = products.id
+        WHERE orders.id = ?
+        """,
+        (order_id,)
+    )
+
+    order = cursor.fetchone()
+
+    connection.close()
+
+    if order is None:
+        return "Pedido no encontrado", 404
+
+    return render_template(
+        "vulnerable_order_detail.html",
+        order=order
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)
