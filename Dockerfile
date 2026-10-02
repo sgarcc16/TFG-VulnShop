@@ -10,4 +10,4 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "python init_db.py && exec flask --app app run --host=0.0.0.0 --port=5000"]
+CMD ["sh", "-c", "python init_db.py && python init_lab.py && exec flask --app app run --host=0.0.0.0 --port=5000"]
