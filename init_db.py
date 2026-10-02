@@ -37,6 +37,45 @@ cursor.execute("""
     )
 """)
 
+cursor.execute("SELECT COUNT(*) FROM products")
+product_count = cursor.fetchone()[0]
+
+if product_count == 0:
+
+    initial_products = [
+        (
+            "Teclado mecánico",
+            "Teclado mecánico RGB para gaming",
+            59.99,
+            10
+        ),
+        (
+            "Ratón gaming",
+            "Ratón óptico con seis botones",
+            34.99,
+            15
+        ),
+        (
+            "Monitor 24 pulgadas",
+            "Monitor Full HD de 24 pulgadas",
+            149.99,
+            5
+        )
+    ]
+
+    cursor.executemany(
+        """
+        INSERT INTO products (
+            name,
+            description,
+            price,
+            stock
+        )
+        VALUES (?, ?, ?, ?)
+        """,
+        initial_products
+    )
+
 connection.commit()
 connection.close()
 
