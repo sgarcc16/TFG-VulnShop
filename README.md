@@ -1,78 +1,51 @@
-# VulnShop - Entorno controlado de pentesting web
+# VulnShop - Aplicación web de referencia para un entorno de pentesting
 
 ## Descripción del proyecto
 
 VulnShop es un proyecto desarrollado como parte del Trabajo de Fin de Grado en Ingeniería Informática de la Universidad de León.
 
-El objetivo principal del proyecto es desarrollar un entorno controlado y reproducible para realizar pruebas de penetración (pentesting) sobre aplicaciones web.
+El proyecto tiene como objetivo estudiar vulnerabilidades de aplicaciones web y la automatización parcial de auditorías de seguridad dentro de un entorno controlado.
 
-Para ello, se ha desarrollado una aplicación web utilizando Python y Flask, en la que se introducen deliberadamente diferentes vulnerabilidades de seguridad tomando como referencia OWASP Top 10.
+La rama `master` contiene la versión funcional de referencia de VulnShop. Esta versión se utiliza como base para comparar el comportamiento normal de la aplicación con los escenarios vulnerables implementados posteriormente en la rama `vulnerable-lab`.
 
-El proyecto también contempla el desarrollo de una herramienta propia en Python para automatizar determinadas fases de una auditoría de seguridad, la realización de pruebas manuales, la comparación de los resultados obtenidos y la posterior corrección de las vulnerabilidades implementadas.
-
-El entorno utiliza Docker para facilitar el despliegue de la aplicación y permitir su ejecución en un entorno controlado.
+La aplicación ha sido desarrollada mediante Python y Flask y reproduce funcionalidades habituales de una aplicación de comercio electrónico.
 
 ---
 
-## Objetivos del proyecto
+## Funcionalidades principales
 
-Los principales objetivos del Trabajo de Fin de Grado son:
+La versión funcional de VulnShop incluye:
 
-1. Desarrollar una aplicación web que contenga vulnerabilidades de seguridad introducidas deliberadamente.
-2. Implementar diferentes escenarios de vulnerabilidad basados en OWASP Top 10.
-3. Crear un entorno de pruebas controlado y reproducible mediante Docker.
-4. Desarrollar una herramienta en Python para automatizar tareas de reconocimiento, enumeración y detección de vulnerabilidades.
-5. Realizar una auditoría de seguridad manual sobre la aplicación.
-6. Comparar los resultados obtenidos mediante el análisis manual y automatizado.
-7. Corregir las vulnerabilidades implementadas.
-8. Comprobar la eficacia de las medidas correctoras aplicadas.
+- registro de usuarios;
+- autenticación y cierre de sesión;
+- gestión de perfiles;
+- catálogo de productos;
+- búsqueda de productos;
+- realización de pedidos;
+- historial de pedidos;
+- consulta individual de pedidos;
+- gestión administrativa de usuarios y productos.
+
+Las comprobaciones de autenticación, autorización y validación se realizan en la lógica del servidor.
 
 ---
 
 ## Tecnologías utilizadas
 
-Las principales tecnologías utilizadas en el proyecto son:
-
 | Tecnología | Utilización |
 |---|---|
-| Python 3.12 | Lenguaje de programación de la aplicación |
-| Flask | Framework para el desarrollo web |
-| HTML | Estructura de las páginas web |
-| CSS | Diseño de la interfaz |
+| Python | Lenguaje principal de desarrollo |
+| Flask | Framework de la aplicación web |
+| Jinja | Generación de plantillas HTML |
+| HTML / CSS | Interfaz de usuario |
+| SQLite | Persistencia de datos |
 | Docker | Contenerización de la aplicación |
 | Git | Control de versiones |
-| GitHub | Almacenamiento y gestión del código fuente |
-
----
-
-## Aplicación web vulnerable
-
-VulnShop es una aplicación web desarrollada específicamente para servir como objetivo de pruebas de penetración.
-
-La aplicación contiene vulnerabilidades introducidas deliberadamente para permitir su identificación, análisis y explotación dentro de un entorno autorizado.
-
-El objetivo es reproducir diferentes problemas de seguridad que pueden aparecer en aplicaciones web reales y estudiar su funcionamiento.
-
-La aplicación permitirá realizar las siguientes actividades:
-
-- Identificación de vulnerabilidades web.
-- Ejecución de pruebas de penetración controladas.
-- Análisis del comportamiento de la aplicación ante diferentes ataques.
-- Evaluación de herramientas de detección automática.
-- Comparación entre auditorías manuales y automatizadas.
-- Corrección de las vulnerabilidades identificadas.
-
-### Vulnerabilidades implementadas
-
-**Apartado pendiente de documentación.**
-
-Se incorporará una descripción de las vulnerabilidades implementadas, indicando su funcionamiento, localización dentro de la aplicación y relación con las categorías de OWASP Top 10.
+| GitHub | Repositorio remoto del proyecto |
 
 ---
 
 ## Estructura del proyecto
-
-Los principales archivos y directorios del proyecto son:
 
 ```text
 TFG-VulnShop/
@@ -82,303 +55,148 @@ TFG-VulnShop/
 ├── requirements.txt
 ├── Dockerfile
 ├── .dockerignore
+├── .gitignore
 │
 ├── templates/
+│   └── ...
 │
 └── static/
+    └── style.css
 ```
 
-### Descripción de los archivos
+### Archivos principales
 
-- **app.py:** archivo principal de la aplicación Flask. Contiene la lógica de funcionamiento de la aplicación web.
-
-- **init_db.py:** script utilizado para inicializar la base de datos de la aplicación.
-
-- **requirements.txt:** contiene las dependencias de Python necesarias para ejecutar el proyecto.
-
-- **Dockerfile:** define las instrucciones necesarias para construir la imagen Docker de VulnShop.
-
-- **.dockerignore:** especifica los archivos y directorios que deben excluirse del contexto de construcción de Docker.
-
-- **templates/:** contiene las plantillas HTML utilizadas para generar las páginas de la aplicación.
-
-- **static/:** contiene los recursos estáticos utilizados por la interfaz web.
+- `app.py`: contiene la aplicación Flask y la lógica principal.
+- `init_db.py`: inicializa la base de datos y los datos funcionales.
+- `requirements.txt`: contiene las dependencias de Python.
+- `Dockerfile`: define la imagen utilizada para ejecutar VulnShop.
+- `.dockerignore`: excluye archivos innecesarios durante la construcción de la imagen.
+- `templates/`: contiene las plantillas HTML.
+- `static/`: contiene los recursos estáticos de la interfaz.
 
 ---
 
-## Instalación y ejecución mediante Docker
+## Control de versiones
 
-La aplicación está preparada para ejecutarse mediante Docker.
+El proyecto mantiene separados los diferentes estados de desarrollo mediante Git.
 
-Esto permite construir una imagen que contiene Python, las dependencias necesarias y el código de la aplicación.
+La rama `master` conserva la versión funcional de referencia.
 
-### 1. Requisitos previos
+Puntos de referencia relevantes:
 
-Para ejecutar el proyecto es necesario disponer de:
+- `secure-baseline` — commit `11f2895`
+- `secure-baseline-ui` — commit `2987498`
 
-- Git.
-- Docker instalado y en funcionamiento.
-- Un terminal desde el que ejecutar los comandos.
+El commit `2987498` corresponde a la versión funcional utilizada como referencia durante la comparación con los escenarios vulnerables.
 
-No es necesario instalar Python ni Flask directamente en el equipo anfitrión, ya que estas dependencias se incluyen dentro de la imagen Docker.
+La rama `vulnerable-lab` contiene:
 
-### 2. Clonar el repositorio
+- los diez escenarios vulnerables del laboratorio;
+- la configuración específica utilizada durante las pruebas;
+- la herramienta automática de pentesting desarrollada para el TFG;
+- los componentes utilizados durante la evaluación manual y automática.
 
-Descargar el código fuente mediante el siguiente comando:
+---
+
+## Instalación mediante Docker
+
+### Requisitos
+
+Para ejecutar VulnShop es necesario disponer de:
+
+- Git;
+- Docker;
+- un terminal desde el que ejecutar los comandos.
+
+### Clonar el repositorio
 
 ```bash
 git clone https://github.com/sgarcc16/TFG-VulnShop.git
-```
-
-Acceder al directorio del proyecto:
-
-```bash
 cd TFG-VulnShop
 ```
 
-### 3. Seleccionar la rama del laboratorio vulnerable
-
-El desarrollo del laboratorio vulnerable se realiza en la rama `vulnerable-lab`.
-
-Para cambiar a esta rama:
+### Seleccionar la rama `master`
 
 ```bash
-git switch vulnerable-lab
+git switch master
 ```
 
-### 4. Construir la imagen Docker
-
-Desde el directorio raíz del proyecto, donde se encuentra el archivo `Dockerfile`, ejecutar:
+### Construir la imagen
 
 ```bash
 docker build -t vulnshop .
 ```
 
-Este comando construye una imagen Docker denominada `vulnshop`.
-
-Durante el proceso se realizan las siguientes operaciones:
-
-1. Se utiliza como imagen base `python:3.12-slim`.
-2. Se establece `/app` como directorio de trabajo.
-3. Se copia el archivo `requirements.txt`.
-4. Se instalan las dependencias necesarias mediante `pip`.
-5. Se copia el código fuente de la aplicación.
-6. Se configura el puerto 5000 como puerto expuesto por la imagen.
-
-### 5. Ejecutar el contenedor
-
-Una vez construida la imagen, iniciar el contenedor mediante:
+### Ejecutar el contenedor
 
 ```bash
 docker run --rm -d --name vulnshop -p 127.0.0.1:5000:5000 vulnshop
 ```
 
-Este comando realiza las siguientes operaciones:
+La aplicación estará disponible en:
 
-- `--rm`: elimina automáticamente el contenedor cuando se detiene.
-- `-d`: ejecuta el contenedor en segundo plano.
-- `--name vulnshop`: asigna el nombre `vulnshop` al contenedor.
-- `-p 127.0.0.1:5000:5000`: publica el puerto 5000 del contenedor únicamente en la interfaz local del equipo.
-- `vulnshop`: especifica la imagen que se utilizará.
-
-La aplicación se inicia mediante el comando definido en el Dockerfile:
-
-```bash
-python init_db.py && exec flask --app app run --host=0.0.0.0 --port=5000
+```text
+http://localhost:5000
 ```
 
-En primer lugar, se ejecuta el script `init_db.py`, encargado de inicializar la base de datos.
-
-Si este proceso finaliza correctamente, se inicia el servidor Flask escuchando en el puerto 5000 del contenedor.
-
-### 6. Acceder a la aplicación
-
-Una vez iniciado correctamente el contenedor, abrir un navegador web y acceder a:
-
-http://localhost:5000
-
-La aplicación estará disponible desde el propio equipo en el que se ejecuta Docker.
-
-**Importante:** el acceso indicado corresponde a una ejecución local. La aplicación no debe exponerse directamente a Internet.
-
-### 7. Consultar los registros del contenedor
-
-Para comprobar el funcionamiento de la aplicación y consultar posibles errores:
+### Consultar los registros
 
 ```bash
 docker logs vulnshop
 ```
 
-Para visualizar los registros en tiempo real:
-
-```bash
-docker logs -f vulnshop
-```
-
-### 8. Detener el contenedor
-
-Para detener la aplicación:
+### Detener el contenedor
 
 ```bash
 docker stop vulnshop
 ```
 
-Debido a la opción `--rm`, el contenedor se eliminará automáticamente después de detenerse.
-
-La imagen Docker permanecerá disponible y podrá utilizarse para iniciar un nuevo contenedor.
-
 ---
 
-## Configuración de Docker
+## Relación con la rama vulnerable
 
-El proyecto utiliza el siguiente Dockerfile:
+La rama `master` se utiliza como versión funcional de referencia.
 
-```dockerfile
-FROM python:3.12-slim
+Para acceder al laboratorio vulnerable:
 
-WORKDIR /app
-
-COPY requirements.txt .
-
-RUN pip install --no-cache-dir -r requirements.txt
-
-COPY . .
-
-EXPOSE 5000
-
-CMD ["sh", "-c", "python init_db.py && exec flask --app app run --host=0.0.0.0 --port=5000"]
+```bash
+git switch vulnerable-lab
 ```
 
-### Funcionamiento
+La rama `vulnerable-lab` incorpora los escenarios representativos del OWASP Top 10:2025 y la herramienta automática desarrollada para realizar comprobaciones sobre ellos.
 
-La imagen parte de una versión reducida de Python 3.12.
-
-Durante su construcción se instalan las dependencias indicadas en `requirements.txt` y se copia el código de la aplicación al directorio `/app`.
-
-Cuando se inicia el contenedor, se ejecuta automáticamente el script de inicialización de la base de datos y, si finaliza correctamente, se arranca el servidor Flask.
-
-El uso de Docker permite mantener las dependencias de la aplicación dentro del contenedor y facilita la reproducción del entorno en otros equipos compatibles.
+El objetivo de mantener ambas ramas separadas es facilitar la trazabilidad y permitir comparar el comportamiento funcional de la aplicación con las variantes deliberadamente inseguras.
 
 ---
 
-## Automatización del pentesting
+## Repositorio
 
-Una de las siguientes fases del proyecto consistirá en desarrollar una herramienta propia en Python para automatizar determinadas tareas de una auditoría de seguridad.
+Repositorio del proyecto:
 
-Entre las funcionalidades previstas se encuentran:
+https://github.com/sgarcc16/TFG-VulnShop
 
-- Reconocimiento inicial del objetivo.
-- Enumeración de recursos y servicios.
-- Detección de determinadas vulnerabilidades web.
-- Recopilación de los resultados del análisis.
+Ramas principales:
 
-La herramienta estará orientada al laboratorio desarrollado y permitirá estudiar las posibilidades y limitaciones de la automatización de pruebas de seguridad.
-
-**Estado: pendiente de desarrollo.**
-
----
-
-## Pentesting manual
-
-Además de la herramienta automática, se realizará una auditoría manual sobre la aplicación vulnerable.
-
-Esta auditoría permitirá analizar las vulnerabilidades implementadas mediante técnicas de pentesting y comprobar su comportamiento.
-
-El objetivo es disponer de resultados obtenidos manualmente que puedan compararse posteriormente con los generados por la herramienta automática.
-
-**Estado: pendiente de realización.**
-
----
-
-## Comparación entre pentesting manual y automatizado
-
-Una vez realizadas ambas auditorías, se compararán los resultados obtenidos.
-
-Los principales aspectos que se pretende analizar son:
-
-- Número de vulnerabilidades detectadas.
-- Tipos de vulnerabilidades identificadas.
-- Diferencias entre los resultados.
-- Posibles falsos positivos y falsos negativos.
-- Tiempo necesario para realizar las pruebas.
-- Limitaciones de cada procedimiento.
-
-Esta comparación permitirá evaluar el funcionamiento de la herramienta desarrollada y analizar las diferencias entre las pruebas manuales y automatizadas.
-
-**Estado: pendiente de realización.**
-
----
-
-## Corrección de vulnerabilidades
-
-La última fase del proyecto consistirá en corregir las vulnerabilidades introducidas deliberadamente en la aplicación.
-
-Para cada vulnerabilidad se documentará:
-
-1. Descripción de la vulnerabilidad.
-2. Código o funcionalidad afectada.
-3. Procedimiento utilizado para detectarla.
-4. Posibles consecuencias de su explotación.
-5. Modificaciones realizadas para corregirla.
-6. Comprobación de la eficacia de la corrección.
-
-De esta forma, el proyecto permitirá estudiar el proceso completo de identificación, análisis y corrección de vulnerabilidades web.
-
-**Estado: pendiente de desarrollo.**
-
----
-
-## Estado actual del proyecto
-
-El Trabajo de Fin de Grado se encuentra actualmente en desarrollo.
-
-### Trabajo realizado
-
-- [x] Creación del repositorio GitHub.
-- [x] Desarrollo inicial de la aplicación web con Python y Flask.
-- [x] Preparación del laboratorio vulnerable.
-- [x] Implementación inicial de vulnerabilidades deliberadas.
-- [x] Creación del Dockerfile.
-- [x] Preparación de la configuración de Docker.
-- [x] Configuración del proceso de inicialización de la base de datos.
-- [x] Organización del código mediante Git.
-
-### Trabajo pendiente
-
-- [ ] Completar la documentación de las vulnerabilidades implementadas.
-- [ ] Desarrollar la herramienta automática de pentesting.
-- [ ] Realizar la auditoría manual.
-- [ ] Comparar los resultados del pentesting manual y automatizado.
-- [ ] Corregir las vulnerabilidades implementadas.
-- [ ] Comprobar las correcciones realizadas.
-- [ ] Completar la memoria del Trabajo de Fin de Grado.
+- `master`: versión funcional de referencia.
+- `vulnerable-lab`: laboratorio vulnerable y herramienta automática.
 
 ---
 
 ## Advertencia de seguridad
 
-**IMPORTANTE: VulnShop es una aplicación deliberadamente vulnerable.**
+La rama `master` corresponde a la versión funcional de referencia del proyecto.
 
-Este proyecto ha sido desarrollado exclusivamente con fines educativos y de investigación en ciberseguridad.
+La rama `vulnerable-lab` contiene vulnerabilidades introducidas deliberadamente con fines educativos y de investigación.
 
-La aplicación contiene fallos de seguridad introducidos intencionadamente y no debe utilizarse en entornos de producción.
+El laboratorio vulnerable debe utilizarse únicamente en infraestructura propia, aislada, controlada y autorizada.
 
-Se recomienda ejecutar el laboratorio únicamente en entornos controlados, aislados y autorizados.
-
-No debe exponerse directamente a Internet ni utilizarse para realizar pruebas sobre sistemas de terceros sin autorización.
+No debe exponerse directamente a Internet ni utilizarse para realizar pruebas contra sistemas de terceros sin autorización.
 
 ---
 
 ## Autor
 
-Trabajo de Fin de Grado en Ingeniería Informática.
+**Samuel García Calvo**
 
-Universidad de León.
-
----
-
-## Referencias
-
-- OWASP Top 10
-- Documentación oficial de Flask
-- Documentación oficial de Docker
+Trabajo de Fin de Grado en Ingeniería Informática  
+Universidad de León
