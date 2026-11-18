@@ -4,3 +4,7 @@ __pycache__/
 vulnshop.db
 .env
 security.log
+
+# Python cache
+__pycache__/
+*.pyc
