@@ -470,14 +470,11 @@ Después se volverá a ejecutar la herramienta automática contra la versión co
 - [x] Validación integrada de la herramienta.
 - [x] Comparación entre pentesting manual y auditoría automática.
 - [x] Incorporación de la herramienta al repositorio.
-
-### Pendiente
-
-- [ ] Corregir los escenarios vulnerables A01-A10.
-- [ ] Validar manualmente las correcciones.
-- [ ] Ejecutar la herramienta automática contra la versión corregida.
-- [ ] Documentar la comparación final entre versión vulnerable y corregida.
-- [ ] Completar la documentación final del Trabajo de Fin de Grado.
+- [x] Corrección de los escenarios vulnerables A01-A10.
+- [x] Validación manual de las correcciones.
+- [x] Ejecución de la herramienta automática contra la versión corregida.
+- [x] Comparación final entre la versión vulnerable y la versión corregida.
+- [x] Documentación final del Trabajo de Fin de Grado.
 
 ---
 
