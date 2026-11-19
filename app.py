@@ -749,9 +749,7 @@ def vulnerable_crypto_register():
         if not username or not password:
             return "Usuario y contraseña obligatorios", 400
 
-        weak_hash = hashlib.md5(
-            password.encode("utf-8")
-        ).hexdigest()
+        weak_hash = generate_password_hash(password)
 
         connection = sqlite3.connect("vulnshop.db")
         cursor = connection.cursor()
