@@ -796,7 +796,7 @@ def vulnerable_crypto_register():
         "vulnerable_crypto_register.html",
         message=message
     )
-
+    
 @app.route(
     "/lab/insecure-design/producto/<int:product_id>",
     methods=["GET", "POST"]
@@ -830,8 +830,6 @@ def vulnerable_purchase(product_id):
 
         try:
             quantity = int(request.form["quantity"])
-            client_price = float(request.form["unit_price"])
-
         except (ValueError, KeyError):
             connection.close()
             return "Datos no válidos", 400
@@ -844,7 +842,7 @@ def vulnerable_purchase(product_id):
             connection.close()
             return "No hay suficiente stock disponible", 400
 
-        total_price = client_price * quantity
+        total_price = product["price"] * quantity
 
         cursor.execute(
             """
@@ -884,6 +882,7 @@ def vulnerable_purchase(product_id):
         "vulnerable_purchase.html",
         product=product
     )
+
 
 @app.route("/lab/auth/login", methods=["GET", "POST"])
 def vulnerable_auth_login():
