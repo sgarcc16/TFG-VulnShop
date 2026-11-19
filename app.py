@@ -654,15 +654,16 @@ def vulnerable_search():
 
     cursor = connection.cursor()
 
-    sql = f"""
-        SELECT id, name, description, price, stock
-        FROM products
-        WHERE name LIKE '%{query}%'
-        OR description LIKE '%{query}%'
-    """
-
     try:
-        cursor.execute(sql)
+        cursor.execute(
+            """
+            SELECT id, name, description, price, stock
+            FROM products
+            WHERE name LIKE ? OR description LIKE ?
+            """,
+            (f"%{query}%", f"%{query}%")
+        )
+
         products = cursor.fetchall()
 
     except sqlite3.Error as error:
@@ -676,6 +677,8 @@ def vulnerable_search():
         products=products,
         query=query
     )
+
+
 
 @app.route("/lab/idor/pedido/<int:order_id>")
 def vulnerable_order_detail(order_id):
