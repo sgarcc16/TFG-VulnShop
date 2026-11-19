@@ -6,6 +6,7 @@ import logging
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import URLSafeSerializer, BadSignature
 
 
 app = Flask(__name__)
@@ -796,7 +797,7 @@ def vulnerable_crypto_register():
         "vulnerable_crypto_register.html",
         message=message
     )
-    
+
 @app.route(
     "/lab/insecure-design/producto/<int:product_id>",
     methods=["GET", "POST"]
@@ -936,42 +937,39 @@ def vulnerable_auth_login():
         message=message
     )
 
-@app.route("/lab/integrity", methods=["GET", "POST"])
+@app.route('/lab/integrity', methods=['GET', 'POST'])
 def vulnerable_integrity():
+    serializer = URLSafeSerializer(app.secret_key, salt="coupon-integrity")
 
     coupon_data = {
         "campaign": "WELCOME",
         "discount": 10
     }
 
-    default_token = base64.urlsafe_b64encode(
-        json.dumps(coupon_data).encode("utf-8")
-    ).decode("utf-8")
-
+    default_token = serializer.dumps(coupon_data)
     result = None
 
     if request.method == "POST":
-
         token = request.form.get("coupon_token", "")
 
         try:
+            coupon = serializer.loads(token)
 
-            decoded_data = base64.urlsafe_b64decode(
-                token.encode("utf-8")
-            ).decode("utf-8")
+            if not isinstance(coupon, dict):
+                raise ValueError("Formato inválido")
 
-            coupon = json.loads(decoded_data)
+            campaign = coupon.get("campaign")
+            discount = coupon.get("discount")
 
-            discount = coupon["discount"]
-            campaign = coupon["campaign"]
+            if campaign != "WELCOME" or discount != 10:
+                raise ValueError("Cupón alterado")
 
             result = (
                 f"Cupón {campaign} aceptado. "
                 f"Descuento aplicado: {discount}%"
             )
 
-        except Exception:
-
+        except (BadSignature, ValueError, TypeError):
             result = "Cupón no válido."
 
     return render_template(
@@ -979,6 +977,7 @@ def vulnerable_integrity():
         token=default_token,
         result=result
     )
+
 
 @app.route("/lab/logging/login", methods=["GET", "POST"])
 def vulnerable_logging_login():
