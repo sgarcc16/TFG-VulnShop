@@ -1098,10 +1098,7 @@ def vulnerable_exception_handling():
             allowed = False
 
     except ValueError:
-
-        # Vulnerabilidad deliberada:
-        # ante un valor inesperado el sistema falla de forma abierta.
-        allowed = True
+        allowed = False
 
     return render_template(
         "vulnerable_exception_handling.html",
