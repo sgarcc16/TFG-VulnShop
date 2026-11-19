@@ -700,8 +700,9 @@ def vulnerable_order_detail(order_id):
         FROM orders
         JOIN products ON orders.product_id = products.id
         WHERE orders.id = ?
+	AND orders.user_id = ?
         """,
-        (order_id,)
+        (order_id, session["user_id"])
     )
 
     order = cursor.fetchone()
