@@ -1014,9 +1014,11 @@ def vulnerable_logging_login():
                 password
             )
         ):
-
-            # Vulnerabilidad deliberada:
-            # el fallo de autenticación NO se registra.
+            security_logger.warning(
+                "Failed login | username=%s | ip=%s",
+                username,
+                request.remote_addr
+            )
 
             message = "Credenciales incorrectas."
 
@@ -1064,7 +1066,6 @@ def secure_logging_login():
                 password
             )
         ):
-
             security_logger.warning(
                 "Failed login | username=%s | ip=%s",
                 username,
