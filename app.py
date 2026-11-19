@@ -914,14 +914,14 @@ def vulnerable_auth_login():
 
         if user is None:
 
-            message = "El usuario no existe."
+            message = "Credenciales incorrectas."
 
         elif not check_password_hash(
             user["password"],
             password
         ):
 
-            message = "La contraseña es incorrecta."
+            message = "Credenciales incorrectas."
 
         else:
 
