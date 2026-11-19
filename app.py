@@ -720,15 +720,21 @@ def vulnerable_order_detail(order_id):
 @app.route("/lab/config")
 def vulnerable_config():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "Acceso denegado", 403
+
     config_info = {
         "environment": "development",
-        "debug": True,
-        "database": "vulnshop.db",
-        "secret_key": app.secret_key,
+        "debug": False,
         "framework": "Flask"
     }
 
     return config_info
+
+
 
 @app.route("/lab/crypto/register", methods=["GET", "POST"])
 def vulnerable_crypto_register():
